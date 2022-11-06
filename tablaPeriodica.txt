@@ -1,0 +1,420 @@
+﻿namespace tabla
+{
+    class tabla_periodica
+    {
+        static void Main()
+        {
+            var elements_data = new periodic_values();
+
+            // Creamos un arreglo del tamaño de los valores de elements_data
+            string[] elements = new string[elements_data.elements_data.Split("\n").Length];
+
+            // Creamos un arreglo de arreglos del mismo tamaño de los valores de elements_data
+            string[][] elements_arrays = new string[elements.Length][];
+
+            // Creamos un arreglo bidimensional con la estructura de la tabla periodica
+            string[,] periodic_table = new string[7, 18];
+
+            // Creamos un arreglo bidimensional con la estructura de la tabla de los lantanidos y actinidos
+            string[,] lan_act_table = new string[2, 17];
+            elements = elements_data.elements_data.Split("\n");
+
+            // Guardamos arreglos dentro del arreglo
+            for (int i = 0; i < elements_arrays.Length; i++)
+            {
+                string[] tmp = elements[i].Split(" ");
+                elements_arrays[i] = tmp;
+            }
+            
+            assign_values_to_periodic_table(ref periodic_table, elements_arrays);
+            assign_values_to_lan_act_table(ref lan_act_table, elements_arrays);
+
+            string user_input = "";
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Type \"sss\" to leave");
+                print_table(periodic_table, lan_act_table, elements_arrays);
+                user_input = print_elements_info(elements_arrays);
+                if (user_input == "sss")
+                {
+                    break;
+                }
+            } while (true);
+        }
+
+        static void assign_values_to_lan_act_table(ref string[,] lan_act_table, string[][] jaggedArray)
+        {
+            int counter = 0;
+
+            lan_act_table[0, 1] = "*   ";
+            lan_act_table[1, 1] = "*   ";
+
+
+            for (int i = 56; i < 71; i++)
+            {
+                lan_act_table[0, counter + 2] = jaggedArray[i][2];
+                if (jaggedArray[i][2].Length == 1)
+                {
+                    lan_act_table[0, counter + 2] += "   ";
+                }
+                else
+                {
+                    lan_act_table[0, counter + 2] += "  ";
+                }
+                counter++;
+            }
+
+            counter = 0;
+            for (int i = 88; i < 103; i++)
+            {
+                lan_act_table[1, counter + 2] = jaggedArray[i][2];
+                if (jaggedArray[i][2].Length == 1)
+                {
+                    lan_act_table[1, counter + 2] += "   ";
+                }
+                else
+                {
+                    lan_act_table[1, counter + 2] += "  ";
+                }
+                counter++;
+            }
+        }
+        static void assign_values_to_periodic_table(ref string[,] two_dimensional_array, string[][] jaggedArray)
+        {
+            int counter = 0;
+            int y_coord = 0;
+            for (int x = 0; x < 7; x++)
+            {
+                for (int y = 0; y < 18; y++)
+                {
+                    for (int element_num = 0; element_num < 118; element_num++)
+                    {
+                        if (18 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 17 && x == 2 || 17 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 16 && x == 2 || 16 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 15 && x == 2 || 15 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 14 && x == 2 || 14 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 13 && x == 2 || 13 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 12 && x == 2 || 12 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 1 && x == 2 || 11 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 0 && x == 2 || 10 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 17 && x == 1 || 9 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 16 && x == 1 || 8 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 15 && x == 1 || 7 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 14 && x == 1 || 6 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 13 && x == 1 || 5 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 12 && x == 1 || 4 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 1 && x == 1 || 1 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 0 && x == 0 || 2 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 17 && x == 0 || 3 == Convert.ToInt32(jaggedArray[element_num][3]) && y == 0 && x == 1)
+                        {
+                            two_dimensional_array[x, y] = jaggedArray[element_num][2];
+                            if (jaggedArray[element_num][2].Length == 1)
+                            {
+                                two_dimensional_array[x, y] += "   ";
+                            }
+                            else
+                            {
+                                two_dimensional_array[x, y] += "  ";
+                            }
+                            break;
+                        }
+                    }
+                    if (x == 3 && y == 17 || x == 4 && y == 17)
+                    {
+                        counter = 18; y_coord = 0; int fina = 0; int counterb = 0;
+                        if (x == 4 && y == 17) { counter = 36; fina = 54; counterb = counter; }
+                        else { counter = 18; fina = 36; counterb = counter; }
+                        do
+                        {
+                            two_dimensional_array[x, y_coord] = jaggedArray[counter][2];
+                            if (jaggedArray[counter][2].Length == 1)
+                            {
+                                two_dimensional_array[x, y_coord] += "   ";
+                            }
+                            else
+                            {
+                                two_dimensional_array[x, y_coord] += "  ";
+                            }
+                            counter++;
+                            y_coord++;
+                        } while (counter > counterb && counter < fina);
+
+                    }
+                    if (x == 5 && y == 17 || x == 6 && y == 17)
+                    {
+                        counter = 0; int counterb = 0; int fin = 0;
+                        y_coord = 0;
+                        if (x == 6 && y == 17) { counterb = 86; fin = 104; counter = 86; }
+                        else { counterb = 54; fin = 72; counter = 54; }
+                        do
+                        {
+                            if (counter == counterb + 2)
+                            {
+                                two_dimensional_array[x, y_coord] = "*";
+                                two_dimensional_array[x, y_coord] += "   ";
+
+                            }
+                            else if (counter > counterb + 2)
+                            {
+                                two_dimensional_array[x, y_coord] = jaggedArray[counter + 14][2];
+
+                                if (jaggedArray[counter + 14][2].Length == 1)
+                                {
+                                    two_dimensional_array[x, y_coord] += "   ";
+                                }
+                                else
+                                {
+                                    two_dimensional_array[x, y_coord] += "  ";
+                                }
+                            }
+                            else
+                            {
+                                two_dimensional_array[x, y_coord] = jaggedArray[counter][2];
+                                if (jaggedArray[counter][2].Length == 1)
+                                {
+                                    two_dimensional_array[x, y_coord] += "   ";
+                                }
+                                else
+                                {
+                                    two_dimensional_array[x, y_coord] += "  ";
+                                }
+                            }
+
+                            counter++;
+                            y_coord++;
+                        } while (counter > counterb && counter < fin);
+                    }
+                }
+            }
+        }
+        static void print_table(string[,] table, string[,] lan_act, string[][] data)
+        {
+            Console.Write(" "); for (int i = 0; i < 9; i++) { Console.Write($"   {i + 1}"); }
+            Console.Write(" "); for (int i = 9; i < 18; i++) { Console.Write($"  {i + 1}"); }
+            Console.WriteLine("\n");
+
+            int counter = 0;
+            for (int x = 0; x < 7; x++)
+            {
+                Console.Write($"{x + 1}   ");
+                for (int y = 0; y < 18; y++)
+                {
+                    if (table[x, y] == null)
+                    {
+                        Console.Write("    ");
+                    }
+                    else
+                    {
+                        if (data[counter][4] == "blue")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Blue;
+                        }
+                        else if (data[counter][4] == "magenta")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Magenta;
+                        }
+                        else if (data[counter][4] == "red")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        }
+                        else if (data[counter][4] == "green")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+                        else if (data[counter][4] == "yellow")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                        }
+                        else if (data[counter][4] == "orange")
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (data[counter][4] == "cyan")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Cyan;
+                        }
+                        else if (data[counter][4] == "dark_green")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+                        Console.Write(table[x, y]);
+                        Console.ForegroundColor = ConsoleColor.White;
+                        counter++;
+
+                        if (counter == 56)
+                        {
+                            counter = 70;
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        }
+                        if (counter == 88)
+                        {
+                            counter = 102;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                        }
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            counter = 56;
+            for (int x = 0; x < 2; x++)
+            {
+                for (int y = 0; y < 17; y++)
+                {
+                    if (lan_act[x, y] == null)
+                    {
+                        Console.Write("    ");
+                    }
+                    else
+                    {
+                        if (data[counter][4] == "other")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        }
+                        else if (data[counter][4] == "other1")
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                        }
+                        Console.Write(lan_act[x, y]);
+                        counter++;
+                    }
+                }
+                Console.WriteLine();
+                counter += 16;
+            }
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        static string print_elements_info(string[][] data)
+        {
+            string element;
+            int position = 0;
+            Console.Write("\n\nType the element symbol: ");
+            element = Console.ReadLine()!.ToLower();
+            if (element.ToLower() == "sss")
+            {
+                return element;
+            }
+            for (int x = 0; x < 118; x++)
+            {
+                if (element == data[x][2].ToLower())
+                {
+                    position = x;
+                }
+            }
+            Console.WriteLine($"\nElement name: {data[position][1]}");
+            Console.WriteLine($"Atomic number: {data[position][3]}");
+            Console.WriteLine($"Atomic mass: {data[position][0]}");
+            Console.ReadLine();
+            return element;
+        }
+    }
+    class periodic_values
+    {
+        public string elements_data =
+        "1.0079 Hydrogen H 1 blue\n" +
+        "4.0026 Helium He 2 magenta\n" +
+        "6.941 Lithium Li 3 red\n" +
+        "9.0122 Beryllium Be 4 orange\n" +
+        "10.811 Boron B 5 dark_green\n" +
+        "12.0107 Carbon C 6 cyan\n" +
+        "14.0067 Nitrogen N 7 cyan\n" +
+        "15.9994 Oxygen O 8 cyan\n" +
+        "18.9984 Fluorine F 9 cyan\n" +
+        "20.1797 Neon Ne 10 magenta\n" +
+        "22.9897 Sodium Na 11 red\n" +
+        "24.305 Magnesium Mg 12 orange\n" +
+        "26.9815 Aluminum Al 13 green\n" +
+        "28.0855 Silicon Si 14 dark_green\n" +
+        "30.9738 Phosphorus P 15 cyan\n" +
+        "32.065 Sulfur S 16 cyan\n" +
+        "35.453 Chlorine Cl 17 cyan\n" +
+        "39.948 Argon Ar 18 magenta\n" +
+        "39.0983 Potassium K 19 red\n" +
+        "40.078 Calcium Ca 20 orange\n" +
+        "44.9559 Scandium Sc 21 yellow\n" +
+        "47.867 Titanium Ti 22 yellow\n" +
+        "50.9415 Vanadium V 23 yellow\n" +
+        "51.9961 Chromium Cr 24 yellow\n" +
+        "54.938 Manganese Mn 25 yellow\n" +
+        "55.845 Iron Fe 26 yellow\n" +
+        "58.9332 Cobalt Co 27 yellow\n" +
+        "58.6934 Nickel Ni 28 yellow\n" +
+        "63.546 Copper Cu 29 yellow\n" +
+        "65.39 Zinc Zn 30 yellow\n" +
+        "69.723 Gallium Ga 31 green\n" +
+        "72.64 Germanium Ge 32 dark_green\n" +
+        "74.9216 Arsenic As 33 dark_green\n" +
+        "78.96 Selenium Se 34 cyan\n" +
+        "79.904 Bromine Br 35 cyan\n" +
+        "83.8 Krypton Kr 36 magenta\n" +
+        "85.4678 Rubidium Rb 37 red\n" +
+        "87.62 Strontium Sr 38 orange\n" +
+        "88.9059 Yttrium Y 39 yellow\n" +
+        "91.224 Zirconium Zr 40 yellow\n" +
+        "92.9064 Niobium Nb 41 yellow\n" +
+        "95.94 Molybdenum Mo 42 yellow\n" +
+        "98 Technetium Tc 43 yellow\n" +
+        "101.07 Ruthenium Ru 44 yellow\n" +
+        "102.9055 Rhodium Rh 45 yellow\n" +
+        "106.42 Palladium Pd 46 yellow\n" +
+        "107.8682 Silver Ag 47 yellow\n" +
+        "112.411 Cadmium Cd 48 yellow\n" +
+        "114.818 Indium In 49 green\n" +
+        "118.71 Tin Sn 50 green\n" +
+        "121.76 Antimony Sb 51 dark_green\n" +
+        "127.6 Tellurium Te 52 dark_green\n" +
+        "126.9045 Iodine I 53 cyan\n" +
+        "131.293 Xenon Xe 54 magenta\n" +
+        "132.9055 Cesium Cs 55 red\n" +
+        "137.327 Barium Ba 56 orange\n" +
+        "138.9055 Lanthanum La 57 other\n" +
+        "140.116 Cerium Ce 58 other\n" +
+        "140.9077 Praseodymium Pr 59 other\n" +
+        "144.24 Neodymium Nd 60 other\n" +
+        "145 Promethium Pm 61 other\n" +
+        "150.36 Samarium Sm 62 other\n" +
+        "151.964 Europium Eu 63 other\n" +
+        "157.25 Gadolinium Gd 64 other\n" +
+        "158.9253 Terbium Tb 65 other\n" +
+        "162.5 Dysprosium Dy 66 other\n" +
+        "164.9303 Holmium Ho 67 other\n" +
+        "167.259 Erbium Er 68 other\n" +
+        "168.9342 Thulium Tm 69 other\n" +
+        "173.04 Ytterbium Yb 70 other\n" +
+        "174.967 Lutetium Lu 71 other\n" +
+        "178.49 Hafnium Hf 72 yellow\n" +
+        "180.9479 Tantalum Ta 73 yellow\n" +
+        "183.84 Tungsten W 74 yellow\n" +
+        "186.207 Rhenium Re 75 yellow\n" +
+        "190.23 Osmium Os 76 yellow\n" +
+        "192.217 Iridium Ir 77 yellow\n" +
+        "195.078 Platinum Pt 78 yellow\n" +
+        "196.9665 Gold Au 79 yellow\n" +
+        "200.59 Mercury Hg 80 yellow\n" +
+        "204.3833 Thallium Tl 81 green\n" +
+        "207.2 Lead Pb 82 green\n" +
+        "208.9804 Bismuth Bi 83 green\n" +
+        "209 Polonium Po 84 dark_green\n" +
+        "210 Astatine At 85 cyan\n" +
+        "222 Radon Rn 86 magenta\n" +
+        "223 Francium Fr 87 red\n" +
+        "226 Radium Ra 88 orange\n" +
+        "227 Actinium Ac 89 other1\n" +
+        "232.0381 Thorium Th 90 other1\n" +
+        "231.0359 Protactinium Pa 91 other1\n" +
+        "238.0289 Uranium U 92 other1\n" +
+        "237 Neptunium Np 93 other1\n" +
+        "244 Plutonium Pu 94 other1\n" +
+        "243 Americium Am 95 other1\n" +
+        "247 Curium Cm 96 other1\n" +
+        "247 Berkelium Bk 97 other1\n" +
+        "251 Californium Cf 98 other1\n" +
+        "252 Einsteinium Es 99 other1\n" +
+        "257 Fermium Fm 100 other1\n" +
+        "258 Mendelevium Md 101 other1\n" +
+        "259 Nobelium No 102 other1\n" +
+        "262 Lawrencium Lr 103 other1\n" +
+        "261 Rutherfordium Rf 104 yellow\n" +
+        "262 Dubnium Db 105 yellow\n" +
+        "266 Seaborgium Sg 106 yellow\n" +
+        "264 Bohrium Bh 107 yellow\n" +
+        "277 Hassium Hs 108 yellow\n" +
+        "268 Meitnerium Mt 109 yellow\n" +
+        "269 Darmstadtium Ds 110 yellow\n" +
+        "272 Roentgenium Rg 111 yellow\n" +
+        "264 Copernicium Cn 112 yellow\n" +
+        "272 Nihonium Nh 113 green\n" +
+        "276 Flerovium Fl 114 green\n" +
+        "279 Moscovium Mc 115 green\n" +
+        "282 Livermorium Lv 116 green\n" +
+        "286 Tennessine Ts 117 cyan\n" +
+        "288 Oganesson Og 118 magenta\n";
+    }
+
+}
